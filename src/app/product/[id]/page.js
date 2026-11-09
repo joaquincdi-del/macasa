@@ -1,33 +1,43 @@
-
-
-export const dynamic = 'force-dynamic'; // Evita errores de pre-renderizado estático
+export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import productsData from '@/data/products.json';
 
 export default async function ProductDetailPage({ params }) {
-  // En versiones recientes de Next.js params es una promesa
   const { id } = await params;
 
+  // Buscar producto por ID
   const product = productsData.find((p) => p.id.toString() === id);
 
   if (!product) {
-    return <div className="p-8 text-center">Producto no encontrado</div>;
+    return (
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-md w-full text-center">
+          <h1 className="text-xl font-bold text-gray-900 mb-2">Producto no encontrado</h1>
+          <p className="text-gray-500 text-sm mb-6">El producto que buscas no existe o fue removido.</p>
+          <Link
+            href="/"
+            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-semibold text-sm transition"
+          >
+            Volver al catálogo
+          </Link>
+        </div>
+      </main>
+    );
   }
 
-  return (
-    <main className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold">{product.name}</h1>
-      <p className="text-gray-600 mt-2">{product.description}</p>
-      <p className="text-2xl font-bold text-green-600 mt-4">${product.price}</p>
-    </main>
-  );
+  // Soporte para name/title y price numérico
+  const title = product.title || product.name;
+  const price = typeof product.price === 'number' ? product.price.toFixed(2) : product.price;
 
   return (
     <main className="min-h-screen bg-gray-50 p-6 md:p-12">
       <div className="max-w-4xl mx-auto">
         {/* Botón para regresar */}
-        <Link href="/" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 mb-6 transition">
+        <Link 
+          href="/" 
+          className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 mb-6 transition"
+        >
           ← Volver al catálogo
         </Link>
 
@@ -36,8 +46,8 @@ export default async function ProductDetailPage({ params }) {
           {/* Imagen */}
           <div className="w-full h-80 md:h-96 rounded-xl overflow-hidden bg-gray-100">
             <img 
-              src={product.image} 
-              alt={product.title} 
+              src={product.image || 'https://via.placeholder.com/400'} 
+              alt={title} 
               className="w-full h-full object-cover"
             />
           </div>
@@ -45,11 +55,13 @@ export default async function ProductDetailPage({ params }) {
           {/* Información del Producto */}
           <div className="flex flex-col justify-between">
             <div>
-              <span className="text-xs uppercase font-bold text-blue-600 tracking-wider bg-blue-50 px-2.5 py-1 rounded-md">
-                {product.category}
-              </span>
-              <h1 className="text-3xl font-bold text-gray-900 mt-3">{product.title}</h1>
-              <p className="text-2xl font-bold text-gray-900 mt-2">${product.price.toFixed(2)}</p>
+              {product.category && (
+                <span className="text-xs uppercase font-bold text-blue-600 tracking-wider bg-blue-50 px-2.5 py-1 rounded-md">
+                  {product.category}
+                </span>
+              )}
+              <h1 className="text-3xl font-bold text-gray-900 mt-3">{title}</h1>
+              <p className="text-2xl font-bold text-gray-900 mt-2">${price}</p>
               
               <div className="border-t border-b border-gray-100 my-6 py-4">
                 <h2 className="text-sm font-semibold text-gray-700 mb-2">Descripción:</h2>
@@ -57,13 +69,13 @@ export default async function ProductDetailPage({ params }) {
               </div>
             </div>
 
-            {/* Acción de compra */}
-            <button
-              onClick={() => alert(`¡${product.title} añadido al carrito!`)}
-              className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3.5 rounded-xl font-semibold transition"
+            {/* Redirección al checkout */}
+            <Link
+              href="/checkout"
+              className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3.5 rounded-xl font-semibold transition text-center block"
             >
-              Añadir al Carrito
-            </button>
+              Proceder al Checkout
+            </Link>
           </div>
         </div>
       </div>
