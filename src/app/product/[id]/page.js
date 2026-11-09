@@ -2,6 +2,13 @@
 import Link from 'next/link';
 import productsData from '@/data/products.json';
 
+// Genera las rutas estáticas para cada producto durante la compilación
+export async function generateStaticParams() {
+  return productsData.map((product) => ({
+    id: product.id.toString(),
+  }));
+}
+
 export default async function ProductDetailPage({ params }) {
   const { id } = await params;
 
