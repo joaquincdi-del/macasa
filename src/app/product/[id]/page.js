@@ -1,7 +1,7 @@
-'use client';
 
-export const dynamic = 'force-dynamic';
-import { use } from 'react';
+
+export const dynamic = 'force-dynamic'; // Evita errores de pre-renderizado estático
+
 import Link from 'next/link';
 import productsData from '@/data/products.json';
 
