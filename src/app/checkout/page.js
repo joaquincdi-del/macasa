@@ -17,7 +17,11 @@ export default function CheckoutPage() {
   return (
     <main className="max-w-4xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Finalizar Compra</h1>
-      {/* Resto de tu código del checkout */}
+      {user ? (
+        <p className="text-gray-700">Comprando como: {user.email || user.name}</p>
+      ) : (
+        <p className="text-gray-500">Usuario no identificado.</p>
+      )}
     </main>
   );
 
