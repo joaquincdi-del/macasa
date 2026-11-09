@@ -1,27 +1,27 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
 import { use } from 'react';
 import Link from 'next/link';
 import productsData from '@/data/products.json';
 
-export default function ProductDetailPage({ params }) {
-  // Desempaquetar los parámetros dinámicos de la URL
-  const { id } = use(params);
+export default async function ProductDetailPage({ params }) {
+  // En versiones recientes de Next.js params es una promesa
+  const { id } = await params;
 
-  // Buscar el producto correspondiente en el JSON local
-  const product = productsData.find((item) => item.id === id);
+  const product = productsData.find((p) => p.id.toString() === id);
 
   if (!product) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-50 text-center">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">Producto no encontrado</h1>
-        <p className="text-gray-500 mb-6">El producto que buscas no existe en el catálogo.</p>
-        <Link href="/" className="bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition">
-          Volver a la tienda
-        </Link>
-      </div>
-    );
+    return <div className="p-8 text-center">Producto no encontrado</div>;
   }
+
+  return (
+    <main className="max-w-4xl mx-auto p-6">
+      <h1 className="text-3xl font-bold">{product.name}</h1>
+      <p className="text-gray-600 mt-2">{product.description}</p>
+      <p className="text-2xl font-bold text-green-600 mt-4">${product.price}</p>
+    </main>
+  );
 
   return (
     <main className="min-h-screen bg-gray-50 p-6 md:p-12">

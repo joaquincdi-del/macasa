@@ -1,22 +1,26 @@
-'use client';
+JavaScript
+'use client'; // 1. Obligatorio para hooks y localStorage en Next.js App Router
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState, useEffect } from 'react'; // 2. Importar los hooks
+import productsData from '@/data/products.json'; // Tu importación si aplica
 
 export default function CheckoutPage() {
+  const [user, setUser] = useState(null);
 
-  // En src/app/checkout/page.js
-useEffect(() => {
-  const savedUser = localStorage.getItem('ecommerce_user');
-  if (savedUser) {
-    const user = JSON.parse(savedUser);
-    setFormData((prev) => ({
-      ...prev,
-      email: user.email,
-      fullName: user.name,
-    }));
-  }
-}, []);
+  useEffect(() => {
+    const savedUser = localStorage.getItem('ecommerce_user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  return (
+    <main className="max-w-4xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4">Finalizar Compra</h1>
+      {/* Resto de tu código del checkout */}
+    </main>
+  );
+
 
   const [formData, setFormData] = useState({
     fullName: '',
