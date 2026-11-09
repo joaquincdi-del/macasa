@@ -1,26 +1,11 @@
-JavaScript
-'use client'; // <-- OBLIGATORIO en la línea 1
+'use client';
 
-import { useState, useEffect } from 'react'; // <-- OBLIGATORIO importar los hooks
-import productsData from '@/data/products.json'; // (Tus imports anteriores...)
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import productsData from '@/data/products.json';
 
 export default function CheckoutPage() {
   const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const savedUser = localStorage.getItem('ecommerce_user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser)); // <-- Asegúrate de que no haya llaves extra { sueltas aquí
-    }
-  }, []);
-
-  return (
-    <main className="max-w-4xl mx-auto p-6">
-      {/* AQUÍ MANTIENES TODOS TUS FORMULARIOS, CARRITO Y BOTONES ACTUALES */}
-    </main>
-  );
-
-
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -31,6 +16,13 @@ export default function CheckoutPage() {
   });
 
   const [isCompleted, setIsCompleted] = useState(false);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('ecommerce_user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,8 +62,6 @@ export default function CheckoutPage() {
       </main>
     );
   }
-
-
 
   return (
     <main className="min-h-screen bg-gray-50 p-6 md:p-12">
