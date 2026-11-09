@@ -1,0 +1,18 @@
+[
+  {
+    "id": "prod_01",
+    "title": "Playera Casual Algodón",
+    "category": "Ropa",
+    "price": 29.99,
+    "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400",
+    "description": "Playera 100% algodón peinado de alta calidad."
+  },
+  {
+    "id": "prod_02",
+    "title": "Tenis Urbanos",
+    "category": "Calzado",
+    "price": 79.99,
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
+    "description": "Tenis ligeros para uso diario."
+  }
+]
