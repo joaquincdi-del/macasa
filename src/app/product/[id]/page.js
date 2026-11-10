@@ -1,14 +1,26 @@
-
 import Link from 'next/link';
-import productsData from '@/data/products.json';
 import { supabase } from '@/lib/supabase';
+
+// Permite renderizar IDs que no fueron pre-generados durante el build
+export const dynamicParams = true;
 
 // Generar rutas estáticas consultando los IDs directo de Supabase
 export async function generateStaticParams() {
-  const { data: products } = await supabase.from('products').select('id');
-  return (products || []).map((product) => ({
-    id: product.id.toString(),
-  }));
+  try {
+    const { data: products } = await supabase.from('products').select('id');
+
+    // Si hay productos en la BD, mapeamos sus IDs
+    if (products && products.length > 0) {
+      return products.map((product) => ({
+        id: product.id.toString(),
+      }));
+    }
+  } catch (error) {
+    console.error('Error al obtener productos para generateStaticParams:', error);
+  }
+
+  // Fallback obligatorio: Cache Components exige retornar al menos un elemento
+  return [{ id: '1' }];
 }
 
 export default async function ProductDetailPage({ params }) {
