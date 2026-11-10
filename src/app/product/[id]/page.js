@@ -1,6 +1,7 @@
 
 import Link from 'next/link';
 import productsData from '@/data/products.json';
+import { supabase } from '@/lib/supabase';
 
 // Generar rutas estáticas consultando los IDs directo de Supabase
 export async function generateStaticParams() {
